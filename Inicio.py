@@ -43,6 +43,7 @@ with st.sidebar:
         "una máquina de interpretar un boceto"
     )
 
+    # Personalización del tablero
     st.subheader("🎨 Personaliza tu tablero")
 
     # Tamaño del tablero
@@ -62,7 +63,7 @@ with st.sidebar:
         step=50
     )
 
-    # Color del fondo
+    # Color del tablero
     bg_color = st.color_picker(
         "Color del tablero",
         "#FFFFFF"
@@ -75,67 +76,4 @@ with st.sidebar:
     )
 
     # Tamaño del trazo
-    stroke_width = st.slider(
-        "Tamaño del trazo",
-        min_value=1,
-        max_value=30,
-        value=5,
-        step=1
-    )
-
-
-st.subheader(
-    "Dibuja el boceto en el panel y presiona el botón para analizarla"
-)
-
-
-# Add canvas component
-drawing_mode = "freedraw"
-
-canvas_result = st_canvas(
-    fill_color="rgba(255, 165, 0, 0.3)",
-    stroke_width=stroke_width,
-    stroke_color=stroke_color,
-    background_color=bg_color,
-    height=canvas_height,
-    width=canvas_width,
-    drawing_mode=drawing_mode,
-    key="canvas",
-)
-
-
-ke = st.text_input(
-    'Ingresa tu Clave',
-    type="password"
-)
-
-os.environ['OPENAI_API_KEY'] = ke
-
-# Retrieve the OpenAI API Key
-api_key = os.environ['OPENAI_API_KEY']
-
-# Initialize the OpenAI client with the API key
-client = OpenAI(api_key=api_key)
-
-analyze_button = st.button(
-    "Analiza la imagen",
-    type="secondary"
-)
-
-
-# Check if an image has been uploaded, if the API key is available,
-# and if the button has been pressed
-if canvas_result.image_data is not None and api_key and analyze_button:
-
-    with st.spinner("Analizando ..."):
-
-        # Encode the image
-        input_numpy_array = np.array(canvas_result.image_data)
-
-        input_image = Image.fromarray(
-            input_numpy_array.astype('uint8')
-        ).convert('RGBA')
-
-        input_image.save('img.png')
-
-        #
+    stroke_width = st
